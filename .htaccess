@@ -1,0 +1,17 @@
+# Aktifkan RewriteEngine
+RewriteEngine On
+
+# Redirect HTTP ke HTTPS (opsional, kalau butuh)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Contoh redirect dari www ke non-www atau sebaliknya
+# Redirect www ke non-www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+
+# Rewrite URL yang semula index.php?page=sesuatu&id=123 jadi sesuatu/123
+RewriteRule ^([a-zA-Z0-9_-]+)/([0-9]+)$ index.php?page=$1&id=$2 [L,QSA]
+
+# Handle error halaman 404 (opsional)
+ErrorDocument 404 /404.html
